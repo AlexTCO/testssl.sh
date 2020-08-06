@@ -1,142 +1,111 @@
 
 ## Intro
 
-[![Build Status](https://travis-ci.org/drwetter/testssl.sh.svg?branch=master)](https://travis-ci.org/drwetter/testssl.sh)
+<!-- [![Travis CI Status](https://img.shields.io/travis/drwetter/testssl.sh)](https://travis-ci.org/drwetter/testssl.sh)  -->
+[![Travis CI Status](https://travis-ci.org/drwetter/testssl.sh.svg?branch=3.1dev)](https://travis-ci.org/drwetter/testssl.sh)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/drwetter/testssl.sh?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![License](https://img.shields.io/github/license/drwetter/testssl.sh)](https://github.com/drwetter/testssl.sh/LICENSE)
+[![Docker](https://img.shields.io/docker/pulls/drwetter/testssl.sh)](https://github.com/drwetter/testssl.sh/blob/3.1dev/Dockerfile.md)
 
 `testssl.sh` is a free command line tool which checks a server's service on
 any port for the support of TLS/SSL ciphers, protocols as well as some
 cryptographic flaws.
 
-#### Key features
+### Key features
 
-* Clear output: you can tell easily whether anything is good or bad
-* Ease of installation: It works for Linux, OSX/Darwin, FreeBSD, NetBSD,
-  OpenBSD (needs bash) and MSYS2/Cygwin out of the box: no need to install
-  or to configure something.  No gems, CPAN, pip or the like/
-* Flexibility: You can test any SSL/TLS enabled and STARTTLS service, not
-  only webservers at port 443
-* Toolbox: Several command line options help you to run YOUR test and
-  configure YOUR output
-* Reliability: features are tested thoroughly
-* Verbosity: If a particular check cannot be performed because of a missing
-  capability on your client side, you'll get a warning
-* Privacy: It's only you who sees the result, not a third party
-* Freedom: It's 100% open source. You can look at the code, see what's
-  going on and you can change it.
-* Heck, even the development is open (github)
+* Clear output: you can tell easily whether anything is good or bad.
+* Machine readable output (CSV, two JSON formats)
+* No need to install or to configure something.  No gems, CPAN, pip or the like.
+* Works out of the box: Linux, OSX/Darwin, FreeBSD, NetBSD, MSYS2/Cygwin, WSL (bash on Windows). Only OpenBSD needs bash.
+* A Dockerfile is provided, there's also an offical container build @ dockerhub.
+* Flexibility: You can test any SSL/TLS enabled and STARTTLS service, not only web servers at port 443.
+* Toolbox: Several command line options help you to run *your* test and configure *your* output.
+* Reliability: features are tested thoroughly.
+* Privacy: It's only you who sees the result, not a third party.
+* Freedom: It's 100% open source. You can look at the code, see what's going on.
+* The development is open (github) and participation is welcome.
 
-#### Installation
+### License
 
-You can download testssl.sh by cloning this git repository:
+This software is free. You can use it under the terms of GPLv2, see LICENSE.
 
-    git clone --depth 1 https://github.com/drwetter/testssl.sh.git
+Attribution is important for the future of this project -- also in the
+internet. Thus if you're offering a scanner based on testssl.sh as a public and/or
+paid service in the internet you are strongly encouraged to mention to your audience
+that you're using this program and where to get this program from. That helps us
+to get bugfixes, other feedback and more contributions.
 
-Or help yourself downloading the ZIP archive
-https://github.com/drwetter/testssl.sh/archive/2.9dev.zip.  ``testssl.sh --help``
-will give you some help upfront.  More help: see doc directory with
-man pages. Older sample runs are at https://testssl.sh/.
+### Compatibility
 
-
-#### Status
-
-Here in the _2.9dev branch you find the development version_ of the software
--- with new features and maybe some bugs -- albeit we try our best before
-committing to test changes. Be aware that we also change the output or command
-line.
-
-For the previous stable version please see [testssl.sh](https://testssl.sh/
-"Go to the site with the stable version") or
-download  the interim release 2.9.5 from here [2.9.5](https://github.com/drwetter/testssl.sh/tree/2.9.5) which is is the
-successor of 2.8 and stable for day-to-day work.
-
-#### Compatibility
-
-testssl.sh is working on every Linux/BSD distribution out of the box. Since 2.9dev
+Testssl.sh is working on every Linux/BSD distribution out of the box. Latest by 2.9dev
 most of the limitations of disabled features from the openssl client are gone
-due to bash-socket-based checks. As a result you can also use e.g. LibreSSL.
-testssl.sh also works on other unixoid system out of the box, supposed they have
-`/bin/bash` >= version 3.2 and standard tools like sed and awk installed.
-System V needs to have GNU grep installed. MacOS X and Windows (using MSYS2 or
-cygwin) work too. OpenSSL version  version >= 1.0.2 is recommended for better
-LOGJAM checks and to display bit strengths for key exchanges.
+due to bash-socket-based checks. As a result you can also use e.g. LibreSSL or OpenSSL >=
+1.1.1 . testssl.sh also works on other unixoid system out of the box, supposed they have
+`/bin/bash` >= version 3.2 and standard tools like sed and awk installed. An implicit
+(silent) check for binaries is done when you start testssl.sh . System V needs probably
+to have GNU grep installed. MacOS X and Windows (using MSYS2, Cygwin or WSL) work too.
 
 Update notification here or @ [twitter](https://twitter.com/drwetter).
 
-#### Features implemented in [2.9dev](Readme.md#devel)
-* Using bash sockets where ever possible --> better detection of ciphers, independent on the openssl version used.
-* Testing 364 default ciphers (``testssl.sh -e/-E``) with a mixture of sockets and openssl. Same speed as with openssl only but additional ciphers such as post-quantum ciphers, new CHAHA20/POLY1305, CamelliaGCM etc.
-* Further tests via TLS sockets and improvements (handshake parsing, completeness, robustness),
-* TLS 1.2 protocol check via socket in production
-* Finding more TLS extensions via sockets
-* TLS Supported Groups Registry (RFC 7919), key shares extension
-* Non-flat JSON support
-* File output (CSV, JSON flat, JSON non-flat) supports a minimum severity level (only above supplied level there will be output)
-* Support of supplying timeout value for ``openssl connect`` -- useful for batch/mass scanning
-* Parallel mass testing (!)
-* File input for serial or parallel mass testing can be also in nmap grep(p)able (-oG) format
-* Native HTML support instead going through 'aha'
-* Better formatting of output (indentation)
-* Choice showing the RFC naming scheme only
-* LUCKY13 and SWEET32 checks
-* Check for vulnerability to Bleichenbacher attacks
-* Ticketbleed check
-* Decoding of unencrypted BIG IP cookies
-* LOGJAM: now checking also for known DH parameters
-* Check for CAA RR
-* Check for OCSP must staple
-* Check for Certificate Transparency
-* Expect-CT Header Detection
-* Check for session resumption (Ticket, ID)
-* TLS Robustness check (GREASE)
-* Postgres und MySQL STARTTLS support, MongoDB support
-* Decodes BIG IP F5 Cookie
-* Fully OpenBSD and LibreSSL support
-* Missing SAN warning
-* Man page
-* Better error msg suppression (not fully installed OpenSSL)
-* DNS over Proxy and other proxy improvements
-* Better JSON output: renamed IDs and findings shorter/better parsable
-* JSON output now valid also for non-responsing servers
-* Added support for private CAs
-* Exit code now 0 for running without error
-* ROBOT check
-* Better extension support
-* Better OpenSSL 1.1.1 support
-* Supports latest and greatest version of TLS 1.3, shows drafts supported
+### Installation
 
-#### Further features planned in 2.9dev
+You can download testssl.sh branch 3.1dev just by cloning this git repository:
 
-https://github.com/drwetter/testssl.sh/issues?q=is%3Aopen+is%3Aissue+milestone%3A2.9dev
+    git clone --depth 1 https://github.com/drwetter/testssl.sh.git
 
-#### Contributions
+Think of 3.1dev like a rolling release, see below. For the stable version help yourself by downloading the [ZIP](https://github.com/drwetter/testssl.sh/archive/3.0.2.zip) or [tar.gz](https://github.com/drwetter/testssl.sh/archive/3.0.2.zip) archive. Just ``cd`` to the directory created (=INSTALLDIR) and run it off there.
 
-Contributions, feedback,  bug reports are welcome! For contributions please
-note: One patch per feature -- bug fix/improvement. Please test your
-changes thouroughly as reliability is important for this project.
+#### Docker
 
-There's a [coding guideline](https://github.com/drwetter/testssl.sh/wiki/Coding-Style).
+Testssl.sh has minimal requirements. As stated you don't have to install or build anything.  You can just run it from the pulled/cloned directory. Still if you don't want to pull the github repo to your directory of choice you can pull a container from dockerhub and run it:
 
-Please file bug reports @ https://github.com/drwetter/testssl.sh/issues.
+```
+docker run --rm -ti  drwetter/testssl.sh:3.1dev <your_cmd_line>
+```
 
-#### Documentation
+Or if you have cloned this repo you also can just ``cd`` to the INSTALLDIR and run
+```
+docker build .
+```
 
-For a start see the
-[wiki](https://github.com/drwetter/testssl.sh/wiki/Man-Page).
-Help is needed here. Will Hunt provides a good [description](https://www.4armed.com/blog/doing-your-own-ssl-tls-testing/) for version 2.8, including useful background info.
+followed by ``docker run -ti <ID> <your_cmd_line>`` where ``ID`` is the identifier in the last line from the build command like
 
-#### Bug reports
+```
+ ---> 889fa2f99933
+Successfully built 889fa2f99933
+```
 
-Please file bugs in the issue tracker. Do not forget to provide detailed information,
-see https://github.com/drwetter/testssl.sh/wiki/Bug-reporting. Nobody can read your
-thoughts -- yet. And only agencies your screen ;-)
+### Status
+
+We're currently in the development phase, version 3.1dev. 3.1dev will eventually become 3.2. Bigger features are developed in a separate branch before merged into 3.1dev to avoid hiccups or inconsistencies. Albeit we try to keep 3.1dev as solid as possible things will certainly change in 3.1dev. So if you need stability the 3.0 branch is better for you. Think of the 3.1dev branch like a rolling release.
+
+Support for 2.9.5 has been dropped. Supported is 3.0.x only.
+
+### Documentation
+
+* .. it is there for reading. Please do so :-) -- at least before asking questions. See man page in groff, html and markdown format in `~/doc/`.
+* [https://testssl.sh/](https://testssl.sh/) will help to get you started.
+* For the (older) version 2.8 will Hunt provides a longer, good [description](https://www.4armed.com/blog/doing-your-own-ssl-tls-testing/), including useful background info.
+
+
+### Contributing
+
+Contributions are welcome! See [CONTRIBUTING.md](https://github.com/drwetter/testssl.sh/blob/3.0/CONTRIBUTING.md) for details.
+
+### Bug reports
+
+Bug reports are important. It makes this project more robust.
+
+Please file bugs in the issue tracker @ github. Do not forget to provide detailed information, see template for issue, and further details @
+https://github.com/drwetter/testssl.sh/wiki/Bug-reporting. Nobody can read your thoughts -- yet. And only agencies your screen ;-)
+
+You can also debug yourself, see [here](https://github.com/drwetter/testssl.sh/wiki/Findings-and-HowTo-Fix-them).
 
 ----
 
-## External/related projects
+### External/related projects
 
-Please address questions not specifically to the code of testssl.sh to the
-respective projects
+Please address questions not specifically to the code of testssl.sh to the respective projects below.
 
 #### Cool web frontend
 * https://github.com/TKCERT/testssl.sh-webfrontend
@@ -144,13 +113,23 @@ respective projects
 #### Mass scanner w parallel scans and elastic searching the results
 * https://github.com/TKCERT/testssl.sh-masscan
 
-#### A ready-to-go docker image is at:
+#### Another ready-to-go docker image is at:
 * https://quay.io/repository/jumanjiman/testssl
 
 #### Privacy checker using testssl.sh
 * https://privacyscore.org
 
+#### Nagios / Icinga Plugins
+* https://github.com/dnmvisser/nagios-testssl (Python 3)
+* https://gitgud.malvager.net/Wazakindjes/icinga2_plugins/src/master/check_testssl.sh (Shell)
+
 #### Brew package
 
 * see [#233](https://github.com/drwetter/testssl.sh/issues/233) and
   [https://github.com/Homebrew/homebrew](https://github.com/Homebrew/homebrew)
+
+#### Daemon for batch execution of testssl.sh command files
+* https://github.com/bitsofinfo/testssl.sh-processor
+
+#### Daemon for batch processing of testssl.sh JSON result files for sending Slack alerts, reactive copying etc
+* https://github.com/bitsofinfo/testssl.sh-alerts

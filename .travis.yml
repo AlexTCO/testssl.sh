@@ -1,13 +1,16 @@
 language: perl
+dist: bionic
 perl:
-  - "5.18"
+   - "5.26"
 addons:
   apt:
     packages:
     - dnsutils
+    - jsonlint
 install:
-  - cpanm Test::More
-  - cpanm Data::Dumper
-  - cpanm JSON
+  - cpanm --notest Test::More
+  - cpanm --notest Data::Dumper
+  - cpanm --notest JSON
+#  - cpanm JSON::Validator
 script:
   - prove -v
